@@ -1,7 +1,7 @@
 package ru.netology
 
 object WallService {
-    private var posts = emptyArray<Post>()
+    var posts = emptyArray<Post>()
 
 
     fun add(post: Post): Post {
@@ -16,8 +16,12 @@ object WallService {
             if (post.id == updPost.id) {
                 posts[index] = post.copy(
                     ownerId = updPost.ownerId,
-                    date = updPost.date)
-                println(posts[index])
+                    fromId = updPost.fromId,
+                    createdBy = updPost.createdBy,
+                    date = updPost.date,
+                    text = updPost.text
+                )
+
                 return true
             }
 
