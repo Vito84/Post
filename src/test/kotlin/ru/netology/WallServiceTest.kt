@@ -40,7 +40,7 @@ class WallServiceTest {
 
             )
         )
-        assertNotEquals(0, result.id)
+        assertEquals(0, result.id)
 
     }
 
