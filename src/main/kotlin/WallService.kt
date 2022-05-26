@@ -1,33 +1,66 @@
 package ru.netology
 
-object WallService {
-    var posts = emptyArray<Post>()
+class WallService(size :Int) {
 
+    var nextID: Int = 0
+    private var arrayOfPosts: Array<Post?> = arrayOfNulls(size)
+    private var comments : Array<Comment?> = arrayOfNulls(size)
+
+
+    fun createComment(comment: Comment) {
+        for (n in arrayOfPosts){
+            if (n?.id == comment.postId){
+                comments[comment.postId] = comment
+                return
+            }
+        }
+        throw PostNotFoundException("PostNotFoundException")
+    }
 
     fun add(post: Post): Post {
-        var addId = if (posts.isNotEmpty()) posts.last().id + 1 else 1
-        posts += post.copy(id = addId)
-        return posts.last()
-
+        post.id = nextID
+        arrayOfPosts[nextID] = post
+        nextID++
+        return post
     }
 
     fun update(post: Post): Boolean {
-        for ((index, updPost) in posts.withIndex())
-            if (post.id == updPost.id) {
-                posts[index] = post.copy(
-                    ownerId = updPost.ownerId,
-                    fromId = updPost.fromId,
-                    createdBy = updPost.createdBy,
-                    date = updPost.date,
-                    text = updPost.text
-                )
-
+        for (n in arrayOfPosts) {
+            if (post.id == n?.id) {
+                //update
+                n.owner_id = post.owner_id
+                n.from_id = post.from_id
+                n.created_by = post.created_by
+                n.text = post.text
+                n.replyOwnerId  = post.replyOwnerId
+                n.replyPossId  = post.replyPossId
+                n.friendsOnly  = post.friendsOnly
+                n.comments = post.comments
+                n.copyright = post.copyright
+                n.likes = post.likes
+                n.reposts = post.reposts
+                n.views = post.views
+                n.postType = post.postType
+                n.canPin = post.canPin
+                n.canDelete = post.canDelete
+                n.canEdit = post.canEdit
+                n.isPinned = post.isPinned
+                n.markedAsAds = post.markedAsAds
+                n.isFavorite = post.isFavorite
+                n.postponedId = post.postponedId
+                n.donut = post.donut
+                n.signerId  = post.signerId
+                n.geo  = post.geo
+                n.attechments = post.attechments
                 return true
             }
-
+        }
         return false
     }
+
 }
+
+
 
 
 
